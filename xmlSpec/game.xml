@@ -1,0 +1,119 @@
+<?xml version = "1.0"?>
+<GameData>
+<!-- screenTitle is also used to identify you and your animation. 
+     So make sure to include your name as part of the screenTitle -->
+<screenTitle>Caleb McCarthy's wolf attack</screenTitle>
+<maxStringSize>50</maxStringSize>
+
+<frameCap>60</frameCap>
+<framesAreCapped>true</framesAreCapped>
+
+<frameMax>400</frameMax>
+<username>camccar</username>
+
+<view>
+  <viewWidth>854</viewWidth>
+  <viewHeight>480</viewHeight>
+</view>
+
+<world>
+  <worldWidth>1700</worldWidth>
+  <worldHeight>1219</worldHeight>
+</world>
+
+<back>
+  <backFile>images/backgroundfinal.png</backFile>
+  <backRed>193</backRed>
+  <backGreen>205</backGreen>
+  <backBlue>205</backBlue>
+  <backFactor>1</backFactor>
+  <backSrcX>0</backSrcX>
+  <backSrcY>0</backSrcY>
+  <backWidth>2500</backWidth>
+  <backHeight>1219</backHeight>
+  <backTransparency>false</backTransparency>
+</back>
+
+<font name="font">
+  <fontFile>font/dyslexic-bold.otf</fontFile>
+  <fontSize>16</fontSize>
+  <fontRed>255</fontRed>
+  <fontGreen>255</fontGreen>
+  <fontBlue>255</fontBlue>
+  <fontUnused>255</fontUnused>
+</font>
+
+<whitestar>
+  <whitestarFile>images/whitestar.png</whitestarFile>
+  <whitestarSrcX>0</whitestarSrcX>
+  <whitestarSrcY>0</whitestarSrcY>
+  <whitestarWidth>12</whitestarWidth>
+  <whitestarHeight>12</whitestarHeight>
+  <whitestarLoc whitestarX="0" whitestarY="0"/>
+  <whitestarSpeed whitestarSpeedX="2" whitestarSpeedY="0"/>
+  <whitestarTransparency>true</whitestarTransparency>
+  <whitestarChunkSize>9</whitestarChunkSize>
+  <whitestarChunkDistance>200</whitestarChunkDistance>
+</whitestar>
+
+
+
+<ground>
+  <groundFile>images/background2.png</groundFile>
+  <groundSrcX>0</groundSrcX>
+  <groundSrcY>0</groundSrcY>
+  <groundWidth>2500</groundWidth>
+  <groundHeight>1219</groundHeight>
+  <groundLoc groundX="0" groundY="0"/>
+  <groundSpeed groundSpeedX="0" groundSpeedY="0"/>
+  <groundTransparency>true</groundTransparency>
+  <groundChunkSize>9</groundChunkSize>
+  <groundChunkDistance>200</groundChunkDistance>
+</ground>
+
+
+<moon>
+  <moonFile>images/moon.bmp</moonFile>
+  <moonSrcX>0</moonSrcX>
+  <moonSrcY>0</moonSrcY>
+  <moonWidth>251</moonWidth>
+  <moonHeight>251</moonHeight>
+  <moonLoc moonX="100" moonY="710"/>
+  <moonSpeed moonSpeedX="10" moonSpeedY="0"/>
+  <moonTransparency>true</moonTransparency>
+  <moonChunkSize>9</moonChunkSize>
+  <moonChunkDistance>200</moonChunkDistance>
+</moon>
+
+
+<tree>
+  <treeFile>images/tree.png</treeFile>
+  <treeSrcX>0</treeSrcX>
+  <treeSrcY>0</treeSrcY>
+  <treeWidth>400</treeWidth>
+  <treeHeight>900</treeHeight>
+  <treeLoc treeX="100" treeY="200"/>
+  <treeSpeed treeSpeedX="0" treeSpeedY="0"/>
+  <treeTransparency>true</treeTransparency>
+  <treeChunkSize>9</treeChunkSize>
+  <treeChunkDistance>200</treeChunkDistance>
+</tree>
+
+<wolf>
+  <wolfFile>images/wolf.png</wolfFile>
+  <wolfLoc wolfX="0" wolfY="970"/>
+
+  <wolfFrames>8</wolfFrames>
+  <wolfFrameInterval>120</wolfFrameInterval>
+  <wolfChunks>25</wolfChunks>
+
+  <wolfSrcX>0</wolfSrcX>
+  <wolfSrcY>0</wolfSrcY>
+  <wolfWidth>450</wolfWidth>
+  <wolfHeight>253</wolfHeight>
+  <wolfSpeedX>200</wolfSpeedX>
+  <wolfSpeedY>0</wolfSpeedY>
+  <wolfTransparency>true</wolfTransparency>
+</wolf>
+
+</GameData>
