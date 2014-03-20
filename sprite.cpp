@@ -3,6 +3,9 @@
 #include "gamedata.h"
 #include "frameFactory.h"
 
+//Comment for testing
+
+
 Sprite::Sprite(const std::string& name) :
   Drawable(name,
            Vector2f(Gamedata::getInstance().getXmlInt(name+"X"), 
