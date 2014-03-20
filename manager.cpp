@@ -2,7 +2,7 @@
 #include <string>
 #include <iomanip>
 #include "multisprite.h"
-#include "twowaysprite.h"
+#include "leftRightSprite.h"
 #include "sprite.h"
 #include "gamedata.h"
 #include "manager.h"
@@ -70,7 +70,7 @@ Vector2f vel(10,0);
   sprites.push_back(new Sprite("ground"));
 
   sprites.push_back(new Sprite("tree"));
-  sprites.push_back(new twowaysprite("wolf"));
+  sprites.push_back(new LeftRightSprite("wolf"));
   //sprites.push_back( new Sprite("star") );
   //std::cout<<"size of sprite with two sprites = "<< sprites.size()<<std::endl;
   //sprites.push_back( new Sprite("greenorb") );

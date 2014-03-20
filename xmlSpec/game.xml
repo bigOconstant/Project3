@@ -104,6 +104,7 @@
   <wolfLoc wolfX="0" wolfY="970"/>
 
   <wolfFrames>8</wolfFrames>
+  <wolfFrameSets>8</wolfFrameSets>
   <wolfFrameInterval>120</wolfFrameInterval>
   <wolfChunks>25</wolfChunks>
 
