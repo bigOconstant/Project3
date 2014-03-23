@@ -108,3 +108,17 @@ void twowaysprite::update(Uint32 ticks) {
   }  
 
 }
+
+void twowaysprite::jump(){
+  std::cout<<"Im going to jump!"<<std::endl;
+  Vector2f temp((this->getVelocity()[0]),this->getVelocity()[1]);  
+  std::cout<<"current x velocity is "<<temp[0]<<" and y velocity is "<<temp[1]<<std::endl;
+  Vector2f pos(this->getPosition()[0],this->getPosition()[1]);
+  std::cout<<"current x position is "<<pos[0]<<" and y pos is "<<pos[1]<<std::endl;
+   
+  temp[1] = 60;
+
+  this->setVelocity(temp);
+
+
+}

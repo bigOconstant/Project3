@@ -71,15 +71,41 @@
   <groundChunkDistance>200</groundChunkDistance>
 </ground>
 
+<mountains>
+  <mountainsFile>images/mountains2.png</mountainsFile>
+  <mountainsSrcX>0</mountainsSrcX>
+  <mountainsSrcY>0</mountainsSrcY>
+  <mountainsWidth>2500</mountainsWidth>
+  <mountainsHeight>1219</mountainsHeight>
+  <mountainsLoc mountainsX="0" mountainsY="0"/>
+  <mountainsSpeed mountainsSpeedX="0" mountainsSpeedY="0"/>
+  <mountainsTransparency>true</mountainsTransparency>
+  <mountainsChunkSize>9</mountainsChunkSize>
+  <mountainsChunkDistance>200</mountainsChunkDistance>
+</mountains>
+
+<grass>
+  <grassFile>images/grass.png</grassFile>
+  <grassSrcX>0</grassSrcX>
+  <grassSrcY>0</grassSrcY>
+  <grassWidth>2500</grassWidth>
+  <grassHeight>1219</grassHeight>
+  <grassLoc grassX="0" grassY="0"/>
+  <grassSpeed grassSpeedX="0" grassSpeedY="0"/>
+  <grassTransparency>true</grassTransparency>
+  <grassChunkSize>9</grassChunkSize>
+  <grassChunkDistance>200</grassChunkDistance>
+</grass>
+
 
 <moon>
-  <moonFile>images/moon.bmp</moonFile>
+  <moonFile>images/moon.png</moonFile>
   <moonSrcX>0</moonSrcX>
   <moonSrcY>0</moonSrcY>
-  <moonWidth>251</moonWidth>
-  <moonHeight>251</moonHeight>
-  <moonLoc moonX="100" moonY="710"/>
-  <moonSpeed moonSpeedX="10" moonSpeedY="0"/>
+  <moonWidth>500</moonWidth>
+  <moonHeight>500</moonHeight>
+  <moonLoc moonX="100" moonY="630"/>
+  <moonSpeed moonSpeedX="7" moonSpeedY="0"/>
   <moonTransparency>true</moonTransparency>
   <moonChunkSize>9</moonChunkSize>
   <moonChunkDistance>200</moonChunkDistance>
@@ -90,9 +116,9 @@
   <treeFile>images/tree.png</treeFile>
   <treeSrcX>0</treeSrcX>
   <treeSrcY>0</treeSrcY>
-  <treeWidth>400</treeWidth>
-  <treeHeight>900</treeHeight>
-  <treeLoc treeX="100" treeY="200"/>
+  <treeWidth>308</treeWidth>
+  <treeHeight>693</treeHeight>
+  <treeLoc treeX="100" treeY="450"/>
   <treeSpeed treeSpeedX="0" treeSpeedY="0"/>
   <treeTransparency>true</treeTransparency>
   <treeChunkSize>9</treeChunkSize>
