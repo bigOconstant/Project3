@@ -15,6 +15,7 @@ public:
   virtual const Frame* getFrame() const { 
     return frames[currentFrame]; 
   }
+  void jump();
 
 protected:
   const std::vector<Frame *> frames;

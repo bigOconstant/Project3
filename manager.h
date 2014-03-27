@@ -4,6 +4,8 @@
 #include "clock.h"
 #include "world.h"
 #include "viewport.h"
+#include "twowaysprite.h"
+#include "sprite.h"
 
 class Manager {
 public:
@@ -22,6 +24,8 @@ private:
 
   std::vector<Drawable*> sprites;
   std::vector<Drawable*> sprites2;
+  twowaysprite *character;
+  Sprite *grass;
   //std::vector<Drawable*> ransprites;
   //std::vector<Drawable*> sprites2;
   int currentSprite;
