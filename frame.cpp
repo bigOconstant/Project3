@@ -65,3 +65,13 @@ void Frame::draw(Sint16 x, Sint16 y, double angle) const {
   SDL_FreeSurface( tmp );
 }
 
+void Frame::draw(Sint16 x, Sint16 y, float size) const {
+  SDL_Surface* tmp = rotozoomSurface(surface, 0, size, 1);
+  SDL_Rect src = { 0, 0, tmp->w, tmp->h };    
+  x -= Viewport::getInstance().X();
+  y -= Viewport::getInstance().Y();
+  SDL_Rect dest = {x, y, 0, 0 };
+  SDL_BlitSurface(tmp, &src, screen, &dest);
+  SDL_FreeSurface( tmp );
+}
+

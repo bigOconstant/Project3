@@ -63,7 +63,7 @@
   <shooting_starSrcY>0</shooting_starSrcY>
   <shooting_starWidth>12</shooting_starWidth>
   <shooting_starHeight>12</shooting_starHeight>
-  <shooting_starLoc shooting_starX="0" shooting_starY="0"/>
+  <shooting_starLoc shooting_starX="5" shooting_starY="-100"/>
   <shooting_starSpeed shooting_starSpeedX="2" shooting_starSpeedY="0"/>
   <shooting_starTransparency>true</shooting_starTransparency>
 </shooting_star>

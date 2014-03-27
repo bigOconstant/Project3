@@ -1,23 +1,24 @@
-#ifndef _H_LEFTRIGHTSPRITE
-#define _H_LEFTRIGHTSPRITE
+#ifndef _H_HUDSPRITE
+#define _H_HUDSPRITE
 #include <string>
 #include <vector>
 #include "drawable.h"
 
-class LeftRightSprite : public Drawable {
+class HudSprite : public Drawable {
 public:
-  LeftRightSprite(const std::string&);
-  LeftRightSprite(const LeftRightSprite&);
-  virtual ~LeftRightSprite() { } 
+  HudSprite(const std::string&);
+  HudSprite(const HudSprite&);
+  virtual ~HudSprite() { } 
 
   virtual void draw() const;
   virtual void update(Uint32 ticks);
   virtual const Frame* getFrame() const { 
     return frames[currentFrame]; 
   }
-
   virtual void setPainter(float size){if(size){};}
 
+  void myUpdate(int count,Uint32 ticks);
+	void lostHealth() {currentFrame--;}
 protected:
   const std::vector<Frame *> frames;
   int worldWidth;
@@ -25,12 +26,9 @@ protected:
 
   unsigned currentFrame;
   unsigned numberOfFrames;
-  unsigned numberOfSets;
-  unsigned frameInterval;
-  float timeSinceLastFrame;
   int frameWidth;
   int frameHeight;
 
-  void advanceFrame(Uint32 ticks);
+  void advanceFrame(int count);
 };
 #endif

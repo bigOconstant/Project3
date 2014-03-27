@@ -12,6 +12,7 @@ public:
 
 private:
   friend class Manager;
+  friend class Hud;
 
   bool started;
   bool paused;

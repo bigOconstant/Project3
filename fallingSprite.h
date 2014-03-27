@@ -1,17 +1,17 @@
-#ifndef SPRITE__H
-#define SPRITE__H
+#ifndef FALLINGSPRITE__H
+#define FALLINGSPRITE__H
 #include <string>
 #include "drawable.h"
 
-class Sprite : public Drawable {
+class FallingSprite : public Drawable {
 public:
-  Sprite(const std::string&);
-  Sprite(const std::string&, const Vector2f& pos, const Vector2f& vel);
-  Sprite(const std::string&, 
+  FallingSprite(const std::string&);
+  FallingSprite(const std::string&, const Vector2f& pos, const Vector2f& vel);
+  FallingSprite(const std::string&, 
          const Vector2f& pos, const Vector2f& vel, const Frame*);
-  Sprite(const Sprite& s);
-  virtual ~Sprite() { } 
-  Sprite& operator=(const Sprite&);
+  FallingSprite(const FallingSprite& s);
+  virtual ~FallingSprite() { } 
+  FallingSprite& operator=(const FallingSprite&);
 
   virtual const Frame* getFrame() const { return frame; }
   virtual void draw() const;
@@ -20,6 +20,8 @@ public:
     size = s;
   }
   virtual void update(Uint32 ticks);
+
+  float getSize() const{return size;}
 
   
 
@@ -31,6 +33,6 @@ private:
   int frameHeight;
   int worldWidth;
   int worldHeight;
-  int getDistance(const Sprite*) const;
+  int getDistance(const FallingSprite*) const;
 };
 #endif

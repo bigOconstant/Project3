@@ -1,12 +1,17 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <algorithm>
+
 #include "multisprite.h"
 #include "leftRightSprite.h"
 #include "sprite.h"
 #include "gamedata.h"
 #include "manager.h"
+#include "fallingSprite.h"
+
 //#include "vector2f.h"
+
 
 Manager::~Manager() { 
   // These deletions eliminate "definitely lost" and
@@ -17,10 +22,9 @@ Manager::~Manager() {
   for (unsigned i = 0; i < sprites2.size(); ++i) {
     delete sprites2[i];
   }
-  /*
-  for (unsigned i = 0; i < ransprites.size(); ++i) {
-    delete ransprites[i];
-  }*/
+  for (unsigned i = 0; i < shootingStars.size(); ++i) {
+    delete shootingStars[i];
+  }
 }
 
 Manager::Manager() :
@@ -28,11 +32,12 @@ Manager::Manager() :
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
   screen( io.getScreen() ),
-  world("back", Gamedata::getInstance().getXmlInt("backFactor") ),
-  viewport( Viewport::getInstance() ),
+  world1("back", Gamedata::getInstance().getXmlInt("backFactor") ),
+  world2("ground", Gamedata::getInstance().getXmlInt("groundFactor") ),
+  viewport( Viewport::getInstance() ),hud(clock),
   sprites(),
-  sprites2(),
-  currentSprite(3),
+  sprites2(),shootingStars(),
+  currentSprite(2),
 
   makeVideo( false ),
   frameCount( 0 ),
@@ -45,69 +50,76 @@ Manager::Manager() :
   }
   SDL_WM_SetCaption(title.c_str(), NULL);
   atexit(SDL_Quit);
-  // trying to set position
-  //MultiSprite *blah = new MultiSprite("spinstar");
-  //Vector2f temp(0.0,700.0);
-  //blah->setPosition(temp);
-  
-  //sprites.push_back( new MultiSprite("spinstar") );
-  //sprites.push_back(blah);
-  //sprites.push_back( new MultiSprite("spinstar2") );
 
 
-Vector2f vel(10,0);
+ /* Vector2f vel(10,0);
+  sprites2.reserve(100);
   for(int i = 0; i <100; ++i){
-  //Sprite temp("whitestar");
-  Vector2f pos((rand() % 2500) ,(rand() % 1219) );
-  //temp.setPosition(pos);
-  sprites2.push_back((new Sprite("whitestar")));
-  sprites2[i]->setPosition(pos);
-  //sprites2[i]->setVelocity(vel);
+    Vector2f pos((rand() % 2500) ,(rand() % 1219) );
+    sprites2.push_back((new Sprite("whitestar")));
+    sprites2[i]->setPosition(pos);
+  }*/
+	shootingStars.reserve(20);
+  std::vector<float> temp;
+  temp.reserve(20);
+	for(int k = 0; k < 20; ++k){
+    float tempSize = float(rand()%5)+1;
+    temp.push_back(tempSize);
+	}
+  sort(temp.begin(),temp.end());
 
+  
+  for( int j =0; j < 20;j++){
+    Vector2f pos((rand() % 2500) ,(rand() % 1219) );
+    Vector2f vel(-(rand() % 25) ,(rand() % 121));
+    FallingSprite* shooting_star = new FallingSprite("shooting_star");
+    shooting_star->setPainter(temp[j]);
+    shooting_star->setPosition(pos);
+    shooting_star->setVelocity(vel);
+    shootingStars.push_back(shooting_star);  
   }
 
+  sprites.reserve(3);
   sprites.push_back( new Sprite("moon"));
-  sprites.push_back(new Sprite("ground"));
-
+  //sprites.push_back(new Sprite("ground"));
   sprites.push_back(new Sprite("tree"));
   sprites.push_back(new LeftRightSprite("wolf"));
-  //sprites.push_back( new Sprite("star") );
-  //std::cout<<"size of sprite with two sprites = "<< sprites.size()<<std::endl;
-  //sprites.push_back( new Sprite("greenorb") );
-
   viewport.setObjectToTrack(sprites[currentSprite]);
 
 }
 
 void Manager::draw() const {
-  world.draw();
- /* sprites[5]->draw();
-  sprites[3]->draw();
-  sprites[4]->draw();
-  sprites[1]->draw();
-  sprites[2]->draw();
+  world1.draw();
 
-  sprites[0]->draw(); 
-  
-  if(sprites[0]->getVelocity()[0] > 0){
-     sprites[0]->draw();
-  }
-  //if(sprites[1]->getVelocity()[1] < 0 )
-  else
-     sprites[1]->draw();
-
- */
-  for (unsigned i = 0; i < sprites2.size(); ++i) {
+  /*for (unsigned i = 0; i < sprites2.size(); ++i) {
    sprites2[i]->draw();
   }
-  for (unsigned i = 0; i < sprites.size(); ++i) {
-   sprites[i]->draw();
+  */for (unsigned i = 0; i < 20;i++){
+      if (static_cast<FallingSprite*>(shootingStars[i])->getSize() < 2)
+        shootingStars[i]->draw();
   }
-  io.printMessageValueAt("Seconds: ", clock.getSeconds(), 10, 20);
-  io.printMessageValueAt("fps: ", clock.getAvgFps(), 10, 40);
-  io.printMessageAt("Press T to switch sprites", 10, 70);
+  sprites[0]->draw();
+  for (unsigned i = 0; i < 20; ++i) {
+    if(static_cast<FallingSprite*>(shootingStars[i])->getSize() < 3 || 
+       static_cast<FallingSprite*>(shootingStars[i])->getSize() > 1)
+      shootingStars[i]->draw();
+  }
+  world2.draw();
+  sprites[1]->draw();
+  for (unsigned i = 0; i < 20; ++i) {
+    if(static_cast<FallingSprite*>(shootingStars[i])->getSize() < 4 || 
+       static_cast<FallingSprite*>(shootingStars[i])->getSize() > 2)
+      shootingStars[i]->draw();
+  }
+  sprites[2]->draw();
+  for (unsigned i = 0; i < 20; ++i) {
+    if(static_cast<FallingSprite*>(shootingStars[i])->getSize() < 6 || 
+       static_cast<FallingSprite*>(shootingStars[i])->getSize() > 3)
+      shootingStars[i]->draw();
+  }
   io.printMessageAt(title, 10, 460);
   viewport.draw();
+  hud.draw();
 
   SDL_Flip(screen);
 }
@@ -126,22 +138,24 @@ void Manager::update() {
   ++clock;
   Uint32 ticks = clock.getElapsedTicks();
  
-  for (unsigned int i = 0; i < sprites2.size(); ++i) {
+  /*for (unsigned int i = 0; i < sprites2.size(); ++i) {
     sprites2[i]->update(ticks);
-  }
+  }*/
  
   for (unsigned int i = 0; i < sprites.size(); ++i) {
     sprites[i]->update(ticks);
   }
- /*
-  for (unsigned int i = 0; i < ransprites.size(); ++i) {
-    ransprites[i]->update(ticks);
+
+  for( unsigned int i = 0; i < shootingStars.size();i++){
+    shootingStars[i]->update(ticks);
   }
- */
+
   if ( makeVideo && frameCount < frameMax ) {
     makeFrame();
   }
-  world.update();
+  world1.update();
+  world2.update();
+	hud.update(ticks);
   viewport.update(); // always update viewport last
 }
 
@@ -182,6 +196,14 @@ void Manager::play() {
         if (keystate[SDLK_F4] && !makeVideo) {
           std::cout << "Making video frames" << std::endl;
           makeVideo = true;
+        }
+        if (keystate[SDLK_F1] && !keyCatch) {
+			 keyCatch = true;
+          hud.swapShown();
+        }
+        if (keystate[SDLK_h] && !keyCatch) {
+			 keyCatch = true;
+          hud.lostHealth();
         }
     }
 

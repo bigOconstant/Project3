@@ -4,6 +4,7 @@
 #include "clock.h"
 #include "world.h"
 #include "viewport.h"
+#include "hud.h"
 
 class Manager {
 public:
@@ -17,13 +18,14 @@ private:
   Clock& clock;
 
   SDL_Surface * const screen;
-  World world;
+  World world1,world2;
   Viewport& viewport;
+  Hud hud;
 
   std::vector<Drawable*> sprites;
   std::vector<Drawable*> sprites2;
-  //std::vector<Drawable*> ransprites;
-  //std::vector<Drawable*> sprites2;
+	std::vector<Drawable*> shootingStars;
+
   int currentSprite;
 
   bool makeVideo;
