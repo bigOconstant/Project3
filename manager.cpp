@@ -1,12 +1,14 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <algorithm>
+
 #include "multisprite.h"
-#include "twowaysprite.h"
+#include "leftRightSprite.h"
 #include "sprite.h"
 #include "gamedata.h"
 #include "manager.h"
-//#include "vector2f.h"
+
 
 Manager::~Manager() { 
   // These deletions eliminate "definitely lost" and
@@ -14,15 +16,10 @@ Manager::~Manager() {
   for (unsigned i = 0; i < sprites.size(); ++i) {
     delete sprites[i];
   }
-  for (unsigned i = 0; i < sprites2.size(); ++i) {
-    delete sprites2[i];
+  for(unsigned i =0; i < fallingStars.size(); ++i){
+    delete fallingStars[i];
   }
-  /*
-  for (unsigned i = 0; i < ransprites.size(); ++i) {
-    delete ransprites[i];
-  }*/
    delete character;
-   delete grass;
 }
 
 Manager::Manager() :
@@ -30,12 +27,12 @@ Manager::Manager() :
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
   screen( io.getScreen() ),
-  world("back", Gamedata::getInstance().getXmlInt("backFactor") ),
-  viewport( Viewport::getInstance() ),
-  sprites(),
-  sprites2(),
+  sky("sky", Gamedata::getInstance().getXmlInt("skyFactor") ),
+  ground("ground", Gamedata::getInstance().getXmlInt("groundFactor") ),
+  grass("grass", Gamedata::getInstance().getXmlInt("grassFactor") ),
+  viewport( Viewport::getInstance() ),hud(clock),
+  sprites(),fallingStars(),
   character(),
-  grass(),
   currentSprite(2),
   
   makeVideo( false ),
@@ -50,58 +47,49 @@ Manager::Manager() :
   SDL_WM_SetCaption(title.c_str(), NULL);
   atexit(SDL_Quit);
 
+  sprites.reserve(2);
+  sprites.push_back( new Sprite("moon"));
+  sprites.push_back(new Sprite("tree"));
 
-Vector2f vel(10,0);
-  for(int i = 0; i <100; ++i){
-  //Sprite temp("whitestar");
-  Vector2f pos((rand() % 2500) ,(rand() % 1219) );
-  //temp.setPosition(pos);
-  sprites2.push_back((new Sprite("whitestar")));
-  sprites2[i]->setPosition(pos);
-  //sprites2[i]->setVelocity(vel);
+  fallingStars.reserve(10);
+  std::vector<float> fallingStarSizes;
+  fallingStarSizes.reserve(10);
+  for(int i=0; i < 10; i++){
+    float tempSize = (rand() % 100) + 1;
+    fallingStarSizes.push_back(tempSize);
+  }
+  sort(fallingStarSizes.begin(),fallingStarSizes.end());
 
+  for(int i = 0; i < 10; i++){
+    fallingStars.push_back(new FallingSprite("shooting_star"));
+    fallingStars[i]->setPainter(fallingStarSizes[i]);
+    fallingStars[i]->setPosition(Vector2f((rand() % 2500),(rand() % 1219)));
+    fallingStars[i]->setVelocity(Vector2f(-(rand() % 25)-25,(rand() % 121)));
   }
 
-  sprites.push_back( new Sprite("moon"));
-  //sprites.push_back(new Sprite("mountains"));
-  sprites.push_back(new Sprite("ground"));
-  
-
-  sprites.push_back(new Sprite("tree"));
-  //  sprites.push_back(new Sprite("grass")); 
-
-  //sprites2.push_back(new Sprite("grass"));
-  character = new twowaysprite("wolf"); 
-  grass = new Sprite("grass");
-
-  // sprites.push_back(new twowaysprite("wolf"));
-  //sprites.push_back( new Sprite("star") );
-  //std::cout<<"size of sprite with two sprites = "<< sprites.size()<<std::endl;
-  //sprites.push_back( new Sprite("greenorb") );
+  character = new LeftRightSprite("wolf"); 
 
   viewport.setObjectToTrack(character);
 
 }
 
 void Manager::draw() const {
-  world.draw();
- /* 
- 
-  for (unsigned i = 0; i < sprites2.size(); ++i) {
-   sprites2[i]->draw();
-  }
- */
-  for (unsigned i = 0; i < sprites.size(); ++i) {
-   sprites[i]->draw();
-  }
-  character->draw();
-  grass->draw();
+  sky.draw();
+  sprites[0]->draw(); //moon
+  /*for(int i = 0; i < 5; i++){
+    fallingStars[i]->draw();
+  }*/
+  ground.draw();
+  sprites[1]->draw(); //tree
+  character->draw(); //wolf
+  /*for(int i = 5; i < 10; i++){
+    fallingStars[i]->draw();
+  }*/
+  grass.draw();
 
-  io.printMessageValueAt("Seconds: ", clock.getSeconds(), 10, 20);
-  io.printMessageValueAt("fps: ", clock.getAvgFps(), 10, 40);
-  io.printMessageAt("Press T to switch sprites", 10, 70);
   io.printMessageAt(title, 10, 460);
   viewport.draw();
+  hud.draw();
 
   SDL_Flip(screen);
 }
@@ -119,22 +107,22 @@ void Manager::makeFrame() {
 void Manager::update() {
   ++clock;
   Uint32 ticks = clock.getElapsedTicks();
-  /*
-  for (unsigned int i = 0; i < sprites2.size(); ++i) {
-    sprites2[i]->update(ticks);
-  }
-  */
-  for (unsigned int i = 0; i < sprites.size(); ++i) {
-    sprites[i]->update(ticks);
+
+  for (unsigned int i = 0; i < fallingStars.size(); ++i) {
+    fallingStars[i]->update(ticks);
   }
 
   if ( makeVideo && frameCount < frameMax ) {
     makeFrame();
   }
+  sky.update();
+  sprites[0]->update(ticks); //moon
+  ground.update();
+  sprites[1]->update(ticks); //tree
   character->update(ticks);
-  grass->update(ticks);
-  world.update();
+  grass.update();
   viewport.update(); // always update viewport last
+  hud.update(ticks);
 }
 
 void Manager::play() {
@@ -166,20 +154,27 @@ void Manager::play() {
         keyCatch = true;
         clock.toggleSloMo();
       }
-        if (keystate[SDLK_p] && !keyCatch) {
+      if (keystate[SDLK_p] && !keyCatch) {
+        keyCatch = true;
+        if ( clock.isPaused() ) clock.unpause();
+        else clock.pause();
+      }
+      if (keystate[SDLK_F4] && !makeVideo) {
+        std::cout << "Making video frames" << std::endl;
+        makeVideo = true;
+      }
+	    if (keystate[SDLK_F1] && !keyCatch) {
+			  keyCatch = true;
+        hud.swapShown();
+      }
+      if (keystate[SDLK_h] && !keyCatch) {
+	 		  keyCatch = true;
+        hud.lostHealth();
+      }
+	     /*if (keystate[SDLK_UP] && !keyCatch) {
           keyCatch = true;
-          if ( clock.isPaused() ) clock.unpause();
-          else clock.pause();
-        }
-        if (keystate[SDLK_F4] && !makeVideo) {
-          std::cout << "Making video frames" << std::endl;
-          makeVideo = true;
-        }
-	
-	if (keystate[SDLK_UP] && !keyCatch) {
-          keyCatch = true;
-	  character->jump();
-        }
+	       character->jump();
+        }*/
 	
     }
 

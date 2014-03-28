@@ -1,11 +1,14 @@
 #include <vector>
 #include <SDL.h>
+
 #include "ioManager.h"
 #include "clock.h"
 #include "world.h"
 #include "viewport.h"
-#include "twowaysprite.h"
+#include "leftRightSprite.h"
 #include "sprite.h"
+#include "hud.h"
+#include "fallingSprite.h"
 
 class Manager {
 public:
@@ -19,15 +22,14 @@ private:
   Clock& clock;
 
   SDL_Surface * const screen;
-  World world;
+  World sky,ground,grass;
   Viewport& viewport;
+  Hud hud;
 
   std::vector<Drawable*> sprites;
-  std::vector<Drawable*> sprites2;
-  twowaysprite *character;
-  Sprite *grass;
-  //std::vector<Drawable*> ransprites;
-  //std::vector<Drawable*> sprites2;
+  std::vector<FallingSprite*> fallingStars;
+  LeftRightSprite *character;
+
   int currentSprite;
 
   bool makeVideo;

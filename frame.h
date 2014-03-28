@@ -22,6 +22,7 @@ public:
   // on a separate surface:
   void draw(Sint16 sx, Sint16 sy, Sint16 dx, Sint16 dy) const;
   void draw(Sint16 x, Sint16 y, double angle) const;
+  void draw(Sint16 x, Sint16 y, float size) const;
 
   Uint16 getWidth()  const { return width; }
   Uint16 getHeight() const { return height; }
